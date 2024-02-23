@@ -16,6 +16,9 @@
       ]
     ],
     "name": "App-Mobile-Vitalink",
-    "slug": "App-Mobile-Vitalink"
+    "slug": "App-Mobile-Vitalink",
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

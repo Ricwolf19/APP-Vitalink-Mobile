@@ -32,8 +32,8 @@ function Content() {
             <View className="gap-4">
               <Link
                 suppressHighlighting
-                className="flex h-9 items-center justify-center overflow-hidden rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 active:bg-gray-400/90 web:focus-visible:outline-none web:focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                href="#"
+                className="bg-black p-5 rounded-md text-white"
+                href="/Login"
               >
                 Explore
               </Link>
@@ -50,25 +50,25 @@ function Header() {
   return (
     <View style={{ paddingTop: top }}>
       <View className="px-4 lg:px-6 h-14 flex items-center flex-row justify-between ">
-        <Link className="font-bold flex-1 items-center justify-center" href="#">
+        <Link className="font-bold flex-1 items-center justify-center" href="/Login">
           ACME
         </Link>
         <View className="flex flex-row gap-4 sm:gap-6">
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="#"
+            href="/Login"
           >
             About
           </Link>
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="#"
+            href="/Login"
           >
             Product
           </Link>
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="#"
+            href="/Login"
           >
             Pricing
           </Link>

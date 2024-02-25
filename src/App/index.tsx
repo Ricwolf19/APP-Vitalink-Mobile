@@ -33,7 +33,7 @@ function Content() {
               <Link
                 suppressHighlighting
                 className="bg-black p-5 rounded-md text-white"
-                href="/Login"
+                href="/"
               >
                 Explore
               </Link>
@@ -50,25 +50,25 @@ function Header() {
   return (
     <View style={{ paddingTop: top }}>
       <View className="px-4 lg:px-6 h-14 flex items-center flex-row justify-between ">
-        <Link className="font-bold flex-1 items-center justify-center" href="/Login">
+        <Link className="font-bold flex-1 items-center justify-center" href="./Login">
           ACME
         </Link>
         <View className="flex flex-row gap-4 sm:gap-6">
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="/Login"
+            href="./Login"
           >
             About
           </Link>
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="/Login"
+            href="./Login"
           >
             Product
           </Link>
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="/Login"
+            href="./Login"
           >
             Pricing
           </Link>

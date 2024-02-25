@@ -1,7 +1,7 @@
 # VitalinkHub Mobile App
 
 <p align="center">
-  <img width="300" height="200" src="public/favicon.png" alt="VitalinkHub Logo">
+  <img width="200" height="200" src="public/favicon.png" alt="VitalinkHub Logo">
 </p>
 
 VitalinkHub Mobile App is a mobile application developed with React Native, Tailwind CSS, Expo, and Firebase. The project aims to provide a streamlined interface for viewing patient and doctor information, as well as integrating IoT devices to gather patient data.

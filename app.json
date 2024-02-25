@@ -19,6 +19,17 @@
     "slug": "App-Mobile-Vitalink",
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": "https://n"
+      },
+      "eas": {
+        "projectId": "8b669828-dd52-4663-88c0-7d73ea53d383"
+      }
+    },
+    "android": {
+      "package": "com.integradora.AppMobileVitalink"
     }
   }
 }

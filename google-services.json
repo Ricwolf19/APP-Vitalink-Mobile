@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "632585986679",
+    "firebase_url": "https://vitalinkhub-default-rtdb.firebaseio.com",
+    "project_id": "vitalinkhub",
+    "storage_bucket": "vitalinkhub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632585986679:android:3f5753e9be75e871969c72",
+        "android_client_info": {
+          "package_name": "com.integradora.AppMobileVitalink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "632585986679-o6j1cvpbqajm035a7ea94ona8j4h0s8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1cxdkRh0yYDrTsULHUnSkzeIIPY2oO8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632585986679-o6j1cvpbqajm035a7ea94ona8j4h0s8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

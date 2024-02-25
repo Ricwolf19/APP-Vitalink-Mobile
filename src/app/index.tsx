@@ -23,19 +23,19 @@ function Content() {
               role="heading"
               className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
             >
-              Welcome to Project ACME
+              VITA LINK
             </Text>
             <Text className="mx-auto max-w-[700px] text-lg text-center text-gray-500 md:text-xl dark:text-gray-400">
-              Discover and collaborate on amce. Explore our services now.
+              CONECTADO CON FIREBASE
             </Text>
 
             <View className="gap-4">
               <Link
                 suppressHighlighting
                 className="bg-black p-5 rounded-md text-white"
-                href="/Login"
+                href="/"
               >
-                Explore
+                Login
               </Link>
             </View>
           </View>

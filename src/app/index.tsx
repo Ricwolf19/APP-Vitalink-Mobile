@@ -33,7 +33,7 @@ function Content() {
               <Link
                 suppressHighlighting
                 className="bg-black p-5 rounded-md text-white"
-                href="/"
+                href="/Login"
               >
                 Explore
               </Link>

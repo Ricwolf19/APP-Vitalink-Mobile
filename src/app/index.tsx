@@ -1,95 +1,52 @@
-import { Link } from "expo-router";
-import React from "react";
-import { Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Image, Text } from "react-native";
+import React, { useEffect } from 'react'
+import { StatusBar } from "expo-status-bar";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import Animated, {
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { router } from "expo-router";
 
-export default function Page() {
+
+export default function WelcomeScreen() {
+  const ring1padding = useSharedValue(0)
+  const ring2padding = useSharedValue(0)
+
+  useEffect(() => {
+    ring1padding.value = 0;
+    ring2padding.value = 0;
+    setTimeout(() => ring1padding.value = withSpring(ring1padding.value + hp(5)), 100);
+    setTimeout(() => ring2padding.value = withSpring(ring2padding.value + hp(3)), 300);
+
+    setTimeout(() => router.replace('/Login'), 2200)
+  }, [])
+
   return (
-    <View className="flex flex-1">
-      <Header />
-      <Content />
-      <Footer />
-    </View>
-  );
-}
+    <View className="flex-1 justify-center items-center space-y-10 bg-blue-200/50">
+      <StatusBar style="light" />
 
-function Content() {
-  return (
-    <View className="flex-1">
-      <View className="py-12 md:py-24 lg:py-32 xl:py-48">
-        <View className="container px-4 md:px-6">
-          <View className="flex flex-col items-center gap-4 text-center">
-            <Text
-              role="heading"
-              className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
-            >
-              VITA LINK
-            </Text>
-            <Text className="mx-auto max-w-[700px] text-lg text-center text-gray-500 md:text-xl dark:text-gray-400">
-              CONECTADO CON FIREBASE
-            </Text>
+      {/* Logo */}
+      <Animated.View className="bg-red-400 rounded-full" style={{ padding: ring2padding }}>
+        <Animated.View className="bg-white rounded-full" style={{ padding: ring1padding }}>
+          <Image source={require('../.././public/logo-rbg.png')}
+            style={{ width: hp(13), height: hp(10) }} />
+        </Animated.View>
+      </Animated.View>
 
-            <View className="gap-4">
-              <Link
-                suppressHighlighting
-                className="bg-black p-5 rounded-md text-white"
-                href="/WelcomeScreen"
-              >
-                Login
-              </Link>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-}
+      <View style={{ padding: hp(1) }}></View>
 
-function Header() {
-  const { top } = useSafeAreaInsets();
-  return (
-    <View style={{ paddingTop: top }}>
-      <View className="px-4 lg:px-6 h-14 flex items-center flex-row justify-between ">
-        <Link className="font-bold flex-1 items-center justify-center" href="./Login">
-          ACME
-        </Link>
-        <View className="flex flex-row gap-4 sm:gap-6">
-          <Link
-            className="text-md font-medium hover:underline web:underline-offset-4"
-            href="./Login"
-          >
-            About
-          </Link>
-          <Link
-            className="text-md font-medium hover:underline web:underline-offset-4"
-            href="./Login"
-          >
-            Product
-          </Link>
-          <Link
-            className="text-md font-medium hover:underline web:underline-offset-4"
-            href="./Login"
-          >
-            Pricing
-          </Link>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function Footer() {
-  const { bottom } = useSafeAreaInsets();
-  return (
-    <View
-      className="flex shrink-0 bg-gray-100 native:hidden"
-      style={{ paddingBottom: bottom }}
-    >
-      <View className="py-6 flex-1 items-start px-4 md:px-6 ">
-        <Text className={"text-center text-gray-700"}>
-          © {new Date().getFullYear()} Me
+      {/* Title */}
+      <View className="flex items-center space-y-2">
+        <Text className="font-bold text-red-700 tracking-widest" style={{ fontSize: hp(6) }}>
+          Vita Link
+        </Text>
+        <Text className="font-medium text-blue-800 tracking-widest" style={{ fontSize: hp(2) }}>
+          Smart Monitoring, Real Results
         </Text>
       </View>
     </View>
-  );
+  )
 }
+
+

@@ -11,7 +11,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.21.0",
     "@tabler/icons-react": "^2.47.0",
-    "expo": "^50.0.1",
+    "expo": "50.0.8",
     "expo-constants": "~15.4.2",
     "expo-linking": "~6.2.1",
     "expo-router": "~3.4.1",

@@ -26,8 +26,8 @@ export default function WelcomeScreen() {
             <StatusBar style="light" />
 
             {/* Logo */}
-            <Animated.View className="bg-blue-300/50 rounded-full" style={{padding: ring2padding}}>
-                <Animated.View className="bg-white/20 rounded-full" style={{padding: ring1padding}}>
+            <Animated.View className="bg-red-400 rounded-full" style={{padding: ring2padding}}>
+                <Animated.View className="bg-blue-100 rounded-full" style={{padding: ring1padding}}>
                     <Image source={require('../.././public/logo-rbg.png')}
                         style={{ width: hp(13), height: hp(10) }} />
                 </Animated.View>

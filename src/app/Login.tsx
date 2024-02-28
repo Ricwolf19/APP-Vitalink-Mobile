@@ -1,13 +1,14 @@
-import { Fauth } from "../../Firebase";
+import { FIREBASE_AUTH } from "../../Firebase";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { View, Text } from "react-native";
 
 
 export default function Login() {
-  // const [email, setEmail] = useState('');
-  // const [pass, setPass] = useState('');
-  // const auth = Fauth;
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH;
 
   return (
     <View className="flex-1">

@@ -1,8 +1,8 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../Firebase";
 // import { Link } from "expo-router";
-import { useState } from "react";
-import { View, Text, TextInput, ActivityIndicator, Button, KeyboardAvoidingView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, ActivityIndicator, KeyboardAvoidingView, TouchableOpacity, Image } from "react-native";
 import { router } from "expo-router";
 
 export default function Login() {
@@ -17,7 +17,7 @@ export default function Login() {
       // const res = 
       await signInWithEmailAndPassword(auth, email, pass);
       //  console.log(res);
-       router.replace('/Home')
+      router.replace('/Home')
       alert('Successfully Login')
     } catch (error) {
       console.log(error);
@@ -26,7 +26,7 @@ export default function Login() {
       setLoading(false);
     }
   }
-  
+
 
   //Funcion para registrarse
   // const signUp = async () => {
@@ -44,19 +44,48 @@ export default function Login() {
   // }
 
   return (
-    <View className="flex-1">
-      <KeyboardAvoidingView behavior="padding">
-        <Text>Login</Text>
-        <TextInput value={email} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
-        <TextInput secureTextEntry={true} value={pass} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPass(text)}></TextInput>
+    <View className="flex-1 justify-center items-center bg-gray-100">
+      <KeyboardAvoidingView behavior="padding" className="w-full px-6">
+        <Image
+          source={require('public/logo-rbg.png')}
+          style={{ width: 130, height: 100, marginBottom: 40, marginLeft: 95 }}
+        />
+
+        <Text className="text-3xl font-bold mb-6 text-center text-gray-800">
+          Welcome Back!
+        </Text>
+
+        <View className="mb-6">
+
+          <TextInput
+            value={email}
+            placeholder="Enter your email"
+            autoCapitalize="none"
+            className="w-full py-2 px-3 border-b border-gray-300 focus:outline-none focus:border-blue-500"
+            onChangeText={(text) => setEmail(text)}
+          />
+        </View>
+
+        <View className="mb-6">
+          <TextInput
+            secureTextEntry={true}
+            value={pass}
+            placeholder="Enter your password"
+            autoCapitalize="none"
+            className="w-full py-2 px-3 border-b border-gray-300 focus:outline-none focus:border-blue-500"
+            onChangeText={(text) => setPass(text)}
+          />
+        </View>
 
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <>
-            <Button title="Login" onPress={signIn} />
-            {/* <Button title="SignUp" onPress={signUp} /> */}
-          </>
+          <TouchableOpacity
+            onPress={signIn}
+            className="bg-blue-500 py-2 px-4 rounded text-white text-center"
+          >
+            <Text className="text-center text-white">Login</Text>
+          </TouchableOpacity>
         )}
       </KeyboardAvoidingView>
     </View>

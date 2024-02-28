@@ -1,8 +1,26 @@
+import { useEffect, useState } from "react";
 import "../global.css";
-import { Slot } from "expo-router";
+import { Redirect, Slot } from "expo-router";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH } from "Firebase";
+
 
 export default function Layout() {
-  return <Slot/>;
+  // const [user, setUser] = useState<User | null>(null);
+
+  // useEffect(() => {
+  //   onAuthStateChanged(FIREBASE_AUTH, (user) => {
+  //     console.log('user: ', user);
+  //     setUser(user);
+  //   });
+  // }, []);
+
+  // if (!user) {
+  //   return <Redirect href="/Login" />
+  // }
+
+  return <Slot/>
+  
 }
 
 //Types of routes of EXPO-ROUTER:

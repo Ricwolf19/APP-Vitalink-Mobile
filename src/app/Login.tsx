@@ -1,8 +1,9 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../Firebase";
-import { Link } from "expo-router";
+// import { Link } from "expo-router";
 import { useState } from "react";
-import { View, Text } from "react-native";
-
+import { View, Text, TextInput, ActivityIndicator, Button, KeyboardAvoidingView } from "react-native";
+import { router } from "expo-router";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -10,33 +11,53 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const auth = FIREBASE_AUTH;
 
+  const signIn = async () => {
+    setLoading(true);
+    try {
+      // const res = 
+      await signInWithEmailAndPassword(auth, email, pass);
+      // console.log(res);
+      // alert('Successfully Login')
+      router.replace("/Home")
+    } catch (error) {
+      console.log(error);
+      alert('Sign In failed: ' + error.message)
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  //Funcion para registrarse
+  // const signUp = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await createUserWithEmailAndPassword(auth, email, pass);
+  //     console.log(res);
+  //     alert('User created!!!')
+  //   } catch (error) {
+  //     console.log(error);
+  //     alert('Sign Up failed: ' + error.message)
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+
   return (
     <View className="flex-1">
-      <View className="py-12 md:py-24 lg:py-32 xl:py-48">
-        <View className="container px-4 md:px-6">
-          <View className="flex flex-col items-center gap-4 text-center">
-            <Text
-              role="heading"
-              className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
-            >
-              VITA LINK
-            </Text>
-            <Text className="mx-auto max-w-[700px] text-lg text-center text-gray-500 md:text-xl dark:text-gray-400">
-              CONECTADO CON FIREBA
-            </Text>
+      <KeyboardAvoidingView behavior="padding">
+        <Text>Login</Text>
+        <TextInput value={email} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}></TextInput>
+        <TextInput secureTextEntry={true} value={pass} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPass(text)}></TextInput>
 
-            <View className="gap-4">
-              <Link
-                suppressHighlighting
-                className="bg-black p-5 rounded-md text-white"
-                href="/"
-              >
-                Login
-              </Link>
-            </View>
-          </View>
-        </View>
-      </View>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <>
+            <Button title="Login" onPress={signIn} />
+            {/* <Button title="SignUp" onPress={signUp} /> */}
+          </>
+        )}
+      </KeyboardAvoidingView>
     </View>
   );
 }

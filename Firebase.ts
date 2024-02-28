@@ -6,14 +6,14 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_jmBWhuWMCcqq_1Lf0LF1R3AviWgSm_I",
-  authDomain: "vitalinkhub.firebaseapp.com",
-  databaseURL: "https://vitalinkhub-default-rtdb.firebaseio.com",
-  projectId: "vitalinkhub",
-  storageBucket: "vitalinkhub.appspot.com",
-  messagingSenderId: "632585986679",
-  appId: "1:632585986679:web:f736896eaf39755a969c72",
-  measurementId: "G-0T1VS44H7X"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

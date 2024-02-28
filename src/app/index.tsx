@@ -1,3 +1,4 @@
+import "../global.css";
 import { View, Image, Text } from "react-native";
 import React, { useEffect } from 'react'
 import { StatusBar } from "expo-status-bar";

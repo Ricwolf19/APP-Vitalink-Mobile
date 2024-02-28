@@ -15,10 +15,10 @@ export default function Login() {
     setLoading(true);
     try {
       // const res = 
-      await signInWithEmailAndPassword(auth, email, pass);
-      // console.log(res);
-      // alert('Successfully Login')
-      router.replace("/Home")
+      const res = await signInWithEmailAndPassword(auth, email, pass);
+       console.log(res);
+       router.replace('/Home')
+      alert('Successfully Login')
     } catch (error) {
       console.log(error);
       alert('Sign In failed: ' + error.message)

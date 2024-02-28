@@ -15,8 +15,8 @@ export default function Login() {
     setLoading(true);
     try {
       // const res = 
-      const res = await signInWithEmailAndPassword(auth, email, pass);
-       console.log(res);
+      await signInWithEmailAndPassword(auth, email, pass);
+      //  console.log(res);
        router.replace('/Home')
       alert('Successfully Login')
     } catch (error) {
@@ -26,6 +26,7 @@ export default function Login() {
       setLoading(false);
     }
   }
+  
 
   //Funcion para registrarse
   // const signUp = async () => {

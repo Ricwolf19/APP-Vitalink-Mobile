@@ -1,26 +1,37 @@
-import { NavigationProp } from "@react-navigation/native";
 import { FIREBASE_AUTH } from "Firebase";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { Button, View } from "react-native";
+import { Button, View, Text, ActivityIndicator } from "react-native";
 
-
-//                 Para meter direcciones a otros sitios
 export default function Home() {
-    const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [initialLoad, setInitialLoad] = useState(false);
 
-    useEffect(() => {
-        onAuthStateChanged(FIREBASE_AUTH, (user) => {
-            console.log('user: ', user);
-            setUser(user);
-        });
-    }, []);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (currentUser) => {
+      setUser(currentUser);
+      setInitialLoad(true);
+    //   console.log('user: ', currentUser);
+    });
 
-    return (
-        <View>
-            <Button onPress={() => router.replace('/Login')} title="Logout" />
-         
-        </View>
-    )
+    // Cleanup subscription when component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  if (!initialLoad) {
+    // Muestra un indicador de carga mientras se verifica la autenticación inicial
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (!user) {
+    return <Redirect href="/Login" />;
+  }
+
+  return (
+    <View>
+      <Button onPress={() => FIREBASE_AUTH.signOut()} title="Logout" />
+      <Text>Hello {user.email}</Text>
+    </View>
+  );
 }

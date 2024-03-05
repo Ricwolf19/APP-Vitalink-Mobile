@@ -3,11 +3,8 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@firebase/auth":
-      ["./node_modules/@firebase/auth/dist/index.rn.d.ts"],
+      "@/*": ["./src/*"],
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
     }
   },
   "extends": "expo/tsconfig.base",
@@ -16,6 +13,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "Firebase.ts"  ]
+    "expo-env.d.ts",
+    "Firebase.ts"
+  ]
 }

@@ -1,7 +1,10 @@
 import { Stack } from 'expo-router';
+import { AuthProvider } from '@/context/authContext';
+
 
 const Layout = () => {
   return (
+    <AuthProvider>
     <Stack>
       <Stack.Screen
         name="(tabs)"
@@ -22,6 +25,7 @@ const Layout = () => {
         }}
       />
     </Stack>
+    </AuthProvider>
   );
 };
 

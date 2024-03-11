@@ -28,53 +28,59 @@ export const useAccountData = () => {
   const { user } = useAuth();
   const [accountData, setAccountData] = useState<any>('');
 
-  useEffect(() => {
-    const getAccountData = async () => {
-      try {
-        const accountsCollectionRef = collection(db, 'accounts');
-        const documentId = user.uid;
+  const getAccountData = async () => {
+    try {
+      const accountsCollectionRef = collection(db, 'accounts');
+      const documentId = user.uid;
 
-        const docSnap = await getDoc(doc(accountsCollectionRef, documentId));
-        if (docSnap.exists()) {
-          const accountInfo = docSnap.data();
+      const docSnap = await getDoc(doc(accountsCollectionRef, documentId));
+      if (docSnap.exists()) {
+        const accountInfo = docSnap.data();
 
-          // Obtener datos de la subcolección "patients"
-          const patientsCollectionRef = collection(docSnap.ref, 'patients');
-          const patientsQuerySnapshot = await getDocs(patientsCollectionRef);
-          const patientsData = patientsQuerySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data()
-          }));
+        // Obtener datos de la subcolección "patients"
+        const patientsCollectionRef = collection(docSnap.ref, 'patients');
+        const patientsQuerySnapshot = await getDocs(patientsCollectionRef);
+        const patientsData = patientsQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
 
-          // Obtener datos de la subcolección "doctors"
-          const doctorsCollectionRef = collection(docSnap.ref, 'doctors');
-          const doctorsQuerySnapshot = await getDocs(doctorsCollectionRef);
-          const doctorsData = doctorsQuerySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data()
-          }));
+        // Obtener datos de la subcolección "doctors"
+        const doctorsCollectionRef = collection(docSnap.ref, 'doctors');
+        const doctorsQuerySnapshot = await getDocs(doctorsCollectionRef);
+        const doctorsData = doctorsQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
 
-          // Incluir datos de las subcolecciones en los datos de la cuenta
-          const updatedAccountData = {
-            ...accountInfo,
-            patients: patientsData,
-            doctors: doctorsData
-          };
+        // Incluir datos de las subcolecciones en los datos de la cuenta
+        const updatedAccountData = {
+          ...accountInfo,
+          patients: patientsData,
+          doctors: doctorsData
+        };
 
-          setAccountData(updatedAccountData);
-        } else {
-          alert('No such Document');
-        }
-      } catch (err) {
-        console.error(err);
+        setAccountData(updatedAccountData);
+      } else {
+        alert('No such Document');
       }
-    };
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  useEffect(() => {
     getAccountData();
   }, [user.uid]);
 
-  return { accountData };
+  const reload = async () => {
+    await getAccountData(); // Llamar a la función getAccountData para recargar los datos
+  };
+
+  return { accountData, reload };
 };
+
+
 
 
 interface AuthContextProps {

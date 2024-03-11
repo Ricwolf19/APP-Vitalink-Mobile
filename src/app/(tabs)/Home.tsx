@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
 import { logOut, useAccountData } from '../../context/authContext';
+import Spinner from '@/components/spinner';
 
 export default function Home() {
   const { accountData } = useAccountData();
@@ -18,8 +19,7 @@ export default function Home() {
             <Text>{accountData.rol}</Text>
           </View>
         ) : (
-          <Text>Loading...</Text>
-          //TODO loading spinner or smth
+          <Spinner/>
         )}
         <Button title="Log Out" onPress={() => logOut()} />
       </View>

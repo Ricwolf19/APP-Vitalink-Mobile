@@ -1,6 +1,7 @@
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useAccountData } from '../../context/authContext';
 import React from 'react';
+import Spinner from '@/components/spinner';
 
 const Doctors = () => {
   const { accountData } = useAccountData();
@@ -18,8 +19,7 @@ const Doctors = () => {
           </View>
         ))
       ) : (
-        <Text>Loading...</Text>
-        //TODO loading spinner or smth
+        <Spinner/>
       )}
     </View>
   );

@@ -21,7 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBedPulse, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 const Patients = () => {
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const { accountData, reload } = useAccountData();
 
   const onRefresh = async () => {
@@ -38,7 +38,7 @@ const Patients = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          {accountData.patients.map((patient) => (
+          {accountData.patients.map((patient: any) => (
             <TouchableOpacity key={patient.id}>
               <Card style={tailwind`w-auto m-3 mb-0 mt-3 bg-white`}>
                 <CardContent style={tailwind`gap-1`}>

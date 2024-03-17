@@ -12,7 +12,7 @@ import {
 const TabsLayout = () => {
   return (
     <Tabs>
-      <Tabs.Screen name="Home" options={tabBarOptions('Home', faHome)} />
+      {/* <Tabs.Screen name="Home" options={tabBarOptions('Home', faHome)} /> */}
       <Tabs.Screen
         name="Patients"
         options={tabBarOptions('Patients List', faHospitalUser)}

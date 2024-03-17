@@ -25,7 +25,7 @@ export default function Login() {
       // const res =
       await signInWithEmailAndPassword(auth, email, pass);
       //  console.log(res);
-      router.replace('/Home');
+      router.replace('/Patients');
     } catch (error) {
       switch (error.code) {
         case 'auth/missing-password':

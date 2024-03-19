@@ -1,6 +1,5 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../Firebase';
-// import { Link } from "expo-router";
 import React, { useState } from 'react';
 import {
   View,
@@ -10,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 import { router } from 'expo-router';
 
@@ -22,20 +22,21 @@ export default function Login() {
   const signIn = async () => {
     setLoading(true);
     try {
-      // const res =
       await signInWithEmailAndPassword(auth, email, pass);
-      //  console.log(res);
       router.replace('/Patients');
     } catch (error) {
       switch (error.code) {
         case 'auth/missing-password':
-          alert('Please enter your password');
+          Alert.alert('Something is missing', 'Please enter your password');
           break;
         case 'auth/invalid-email':
-          alert('Please enter a valid email');
+          Alert.alert('Invalid email', 'Please enter a valid email');
           break;
         case 'auth/invalid-credential':
-          alert('Incorrect password or email');
+          Alert.alert(
+            'Invalid credentials',
+            'Please enter a valid email and password'
+          );
           break;
       }
       console.log(error);
@@ -44,27 +45,13 @@ export default function Login() {
     }
   };
 
-  //Funcion para registrarse
-  // const signUp = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await createUserWithEmailAndPassword(auth, email, pass);
-  //     console.log(res);
-  //     alert('User created!!!')
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert('Sign Up failed: ' + error.message)
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
   return (
     <View className="flex-1 justify-center items-center bg-gray-100">
       <KeyboardAvoidingView behavior="padding" className="w-full px-6">
-        <Image className='items-center justify-center w-1/2 h-1/2 mx-auto'
+        <Image
+          className="items-center justify-center w-1/2 h-1/2 mx-auto"
           source={require('public/logo-rbg.png')}
-          style={{ width: 130, height: 100, marginBottom: 40}}
+          style={{ width: 130, height: 100, marginBottom: 40 }}
         />
 
         <Text className="text-3xl font-bold text-center text-gray-800">

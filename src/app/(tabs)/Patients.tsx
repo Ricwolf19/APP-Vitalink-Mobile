@@ -38,7 +38,7 @@ const Patients = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          contentContainerClassName='py-1.5'
+          contentContainerStyle={tailwind`py-1.5`}
         >
           {accountData.patients.map((patient: any) => (
             <TouchableOpacity

@@ -38,7 +38,7 @@ const Doctors = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          contentContainerClassName='py-1.5'
+          contentContainerStyle={tailwind`py-1.5`}
         >
           {accountData.doctors.map((doctor: any) => (
             <Card key={doctor.id} style={tailwind`w-auto my-1.5 mx-3 bg-white`}>

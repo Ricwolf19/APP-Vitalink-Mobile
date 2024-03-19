@@ -130,8 +130,8 @@ const PatientPage = () => {
     <ScrollView
       className="flex-1"
       style={{ flex: 1, backgroundColor: '#fff' }}
-      contentContainerClassName="px-6 py-6"
-    >
+      contentContainerStyle={tailwind`px-6 py-6`}
+      >
       {accountData && patientDataArray && realTimeData ? (
         <>
           <Text style={tailwind`mb-2 text-xl font-bold`}>Vital Signs:</Text>

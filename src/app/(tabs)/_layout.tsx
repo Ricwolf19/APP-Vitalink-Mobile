@@ -12,7 +12,6 @@ import {
 const TabsLayout = () => {
   return (
     <Tabs>
-      {/* <Tabs.Screen name="Home" options={tabBarOptions('Home', faHome)} /> */}
       <Tabs.Screen
         name="Patients"
         options={tabBarOptions('Patients List', faHospitalUser)}
@@ -23,7 +22,7 @@ const TabsLayout = () => {
       />
       <Tabs.Screen
         name="Profile"
-        options={tabBarOptions('Profile & Settings', faGear)}
+        options={tabBarOptions('Profile', faGear)}
       />
     </Tabs>
   );

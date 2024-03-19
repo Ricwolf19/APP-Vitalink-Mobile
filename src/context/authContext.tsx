@@ -12,8 +12,13 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { FIREBASE_AUTH as auth, FIREBASE_DB as db } from '../../Firebase';
 import {
+  FIREBASE_AUTH as auth,
+  FIREBASE_DB as db,
+  FIREBASE_RTD as rtdb,
+} from '../../Firebase';
+import {
+  addDoc,
   collection,
   collectionGroup,
   doc,
@@ -21,15 +26,17 @@ import {
   // setDoc,
   getDoc,
   getDocs,
+  setDoc,
 } from 'firebase/firestore';
 import { router } from 'expo-router';
+import { off, onValue, ref } from 'firebase/database';
 
 export const useAccountData = () => {
-  const { user } = useAuth();
-  const [accountData, setAccountData] = useState<any>('');
+  try {
+    const { user } = useAuth();
+    const [accountData, setAccountData] = useState<any>('');
 
-  const getAccountData = async () => {
-    try {
+    const getAccountData = async () => {
       const accountsCollectionRef = collection(db, 'accounts');
       const documentId = user.uid;
 
@@ -42,7 +49,7 @@ export const useAccountData = () => {
         const patientsQuerySnapshot = await getDocs(patientsCollectionRef);
         const patientsData = patientsQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
 
         // Obtener datos de la subcolección "doctors"
@@ -50,38 +57,123 @@ export const useAccountData = () => {
         const doctorsQuerySnapshot = await getDocs(doctorsCollectionRef);
         const doctorsData = doctorsQuerySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
 
         // Incluir datos de las subcolecciones en los datos de la cuenta
         const updatedAccountData = {
           ...accountInfo,
           patients: patientsData,
-          doctors: doctorsData
+          doctors: doctorsData,
         };
 
         setAccountData(updatedAccountData);
       } else {
         alert('No such Document');
       }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    };
 
-  useEffect(() => {
-    getAccountData();
-  }, [user.uid]);
+    useEffect(() => {
+      getAccountData();
+    }, [user.uid]);
 
-  const reload = async () => {
-    await getAccountData(); // Llamar a la función getAccountData para recargar los datos
-  };
+    const reload = async () => {
+      await getAccountData();
+    };
 
-  return { accountData, reload };
+    const listenToRealtimeData = (
+      device: string,
+      callback: (data: any) => void
+    ) => {
+      const databaseRef = ref(rtdb, `/dispositivos/${device}`);
+      const unsubscribe = onValue(databaseRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        if (data) {
+          callback(data);
+        }
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    };
+
+    // send data to a subcollection in patient called vitalSigns
+    const storeVitalSigns = async (patientId: string, data: any) => {
+      const documentId = user.uid;
+
+      const patientDocRef = doc(
+        db,
+        'accounts',
+        documentId,
+        'patients',
+        patientId
+      );
+      const vitalSignsCollectionRef = collection(patientDocRef, 'vitalSigns');
+      await addDoc(vitalSignsCollectionRef, data);
+    };
+
+    const getVitalSigns = async (patientId: string) => {
+      const documentId = user.uid;
+
+      const patientDocRef = doc(
+        db,
+        'accounts',
+        documentId,
+        'patients',
+        patientId
+      );
+      const vitalSignsCollectionRef = collection(patientDocRef, 'vitalSigns');
+
+      const vitalSignsQuerySnapshot = await getDocs(vitalSignsCollectionRef);
+      const vitalSignsData = vitalSignsQuerySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return vitalSignsData;
+    };
+
+    // const listenToRealtimeData = (device: string): Promise<any> => {
+    //   return new Promise((resolve, reject) => {
+    //     const databaseRef = ref(rtdb, `/dispositivos/${device}`);
+    //     onValue(databaseRef, (snapshot) => {
+    //       const data = snapshot.val();
+    //       console.log(data);
+    //       if (data) {
+    //         resolve(data);
+    //       } else {
+    //         reject('No data');
+    //       }
+    //     });
+    //   });
+    // };
+
+    const getPatient = async (id: string) => {
+      if (accountData && accountData.patients) {
+        const patient = accountData.patients.find(
+          (patient: any) => patient.id === id
+        );
+        return patient;
+      } else {
+        console.error('accountData or accountData.patients is undefined');
+        return null;
+      }
+    };
+
+    return {
+      accountData,
+      reload,
+      getPatient,
+      listenToRealtimeData,
+      storeVitalSigns,
+      getVitalSigns,
+    };
+  } catch (err) {
+    console.error(err);
+  }
 };
-
-
-
 
 interface AuthContextProps {
   // signUp: (email: string, password: string) => void;
@@ -105,7 +197,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export function logOut (): void {
+export function logOut(): void {
   signOut(auth);
   router.replace('/Login');
 }

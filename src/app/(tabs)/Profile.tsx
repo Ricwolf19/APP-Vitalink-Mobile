@@ -20,7 +20,7 @@ const Profile = () => {
   useEffect(() => {
     setAccountDataArray([
       {
-        title: 'Usuario',
+        title: 'Username',
         data: accountData.userName,
       },
       {
@@ -66,10 +66,10 @@ const Profile = () => {
             <View
               style={{
                 height: 1,
-                backgroundColor: '#fca5a5',
                 marginTop: 10,
                 marginBottom: 10,
               }}
+              className='bg-black/25'
             ></View>
           )}
         ></FlatList>

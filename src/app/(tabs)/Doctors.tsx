@@ -19,6 +19,7 @@ import {
 import tailwind from 'twrnc';
 import { faBedPulse, faHospital } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { router } from 'expo-router';
 
 const Doctors = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -37,29 +38,31 @@ const Doctors = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          contentContainerClassName='py-1.5'
         >
           {accountData.doctors.map((doctor: any) => (
-            <TouchableOpacity key={doctor.id}>
-              <Card style={tailwind`w-auto m-3 mb-0 mt-3 bg-white`}>
-                <CardContent style={tailwind`gap-1`}>
-                  <CardTitle style={{ color: '#1565c0' }}>
-                    <FontAwesomeIcon icon={faHospital} color="#1565c0" />
-                    {'  '}
-                    {doctor.name} {doctor.lastName}
-                  </CardTitle>
-                  <CardSubtitle>
-                    ID number: {doctor.numCedula}
-                  </CardSubtitle>
-                  <CardText>Area: {doctor.area}</CardText>
-                  <CardSubtitle>Patients: </CardSubtitle>
-                  <CardText>
-                    {doctor.patients.map((patient: any, i: number, patientsArray: number) => (
-                      <Text key={i}>{'• ' + patient + ((patientsArray[i + 1])?'\n' :'')}</Text>
-                    ))}
-                  </CardText>
-                </CardContent>
-              </Card>
-            </TouchableOpacity>
+            <Card key={doctor.id} style={tailwind`w-auto my-1.5 mx-3 bg-white`}>
+              <CardContent style={tailwind`gap-1`}>
+                <CardTitle style={{ color: '#1565c0' }}>
+                  <FontAwesomeIcon icon={faHospital} color="#1565c0" />
+                  {'  '}
+                  {doctor.name} {doctor.lastName}
+                </CardTitle>
+                <CardSubtitle>ID number: {doctor.numCedula}</CardSubtitle>
+                <CardText>Area: {doctor.area}</CardText>
+                <CardSubtitle>Patients: </CardSubtitle>
+                <CardText>
+                  {doctor.patients.map(
+                    (patient: any, i: number, patientsArray: number) => (
+                      <Text key={i}>
+                        {'• ' + patient + (patientsArray[i + 1] ? '\n' : '')}
+                      </Text>
+                    )
+                  )}
+                </CardText>
+                <CardSubtitle>Status: {doctor.status} </CardSubtitle>
+              </CardContent>
+            </Card>
           ))}
         </ScrollView>
       ) : (

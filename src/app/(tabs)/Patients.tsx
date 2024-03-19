@@ -19,6 +19,7 @@ import tailwind from 'twrnc';
 import Spinner from '@/components/spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBedPulse, faStethoscope } from '@fortawesome/free-solid-svg-icons';
+import { router } from 'expo-router';
 
 const Patients = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -37,10 +38,16 @@ const Patients = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          contentContainerClassName='py-1.5'
         >
           {accountData.patients.map((patient: any) => (
-            <TouchableOpacity key={patient.id}>
-              <Card style={tailwind`w-auto m-3 mb-0 mt-3 bg-white`}>
+            <TouchableOpacity
+              key={patient.id}
+              onPress={() => {
+                router.push({ pathname: '/PatientPage', params: { id: patient.id, name:patient.name } });
+              }}
+            >
+              <Card style={tailwind`w-auto my-1.5 mx-3 bg-white`}>
                 <CardContent style={tailwind`gap-1`}>
                   <CardTitle style={{ color: '#1565c0' }}>
                     <FontAwesomeIcon icon={faBedPulse} color="#1565c0" />
@@ -54,7 +61,7 @@ const Patients = () => {
                   <CardText>{patient.age} years old</CardText>
                   <CardText>Blood type: {patient.bloodType}</CardText>
                   <CardText>Area: {patient.area}</CardText>
-                  <CardSubtitle>Last checked: 2h ago</CardSubtitle>
+                  <CardSubtitle>Status: {patient.status}</CardSubtitle>
                 </CardContent>
               </Card>
             </TouchableOpacity>

@@ -1,8 +1,43 @@
-import { Slot } from 'expo-router';
-
+import { Stack } from 'expo-router';
+import { AuthProvider } from '@/context/authContext';
 
 const Layout = () => {
-  return <Slot />;
+  return (
+    <AuthProvider>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="(history)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="(pages)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </AuthProvider>
+  );
 };
 
 export default Layout;

@@ -13,6 +13,7 @@ import { useAccountData } from '../../context/authContext';
 import Spinner from '@/components/spinner';
 import { Card, CardSubtitle, CardTitle } from '@/components/card';
 import tailwind from 'twrnc';
+import { format } from 'date-fns';
 
 const PatientPage = () => {
   const { getPatient, accountData, listenToRealtimeData, storeVitalSigns } =
@@ -20,6 +21,12 @@ const PatientPage = () => {
   const params = useLocalSearchParams();
   const [patientDataArray, setPatientDataArray] = useState<any[]>([]);
   const [realTimeData, setRealTimeData] = useState<any[]>([]);
+  const [paramsData, setParamsData] = useState<any>({
+    id: '',
+    name: '',
+    birthdate: '',
+    doctorAssigned: '',
+  });
   const [dataToSend, setDataToSend] = useState<any>({});
   const [hasFetchedPatient, setHasFetchedPatient] = useState(false);
   let id: keyof typeof params.id = params.id as keyof typeof params.id;
@@ -29,6 +36,18 @@ const PatientPage = () => {
     const fetchPatient = async () => {
       if (!hasFetchedPatient && accountData && params) {
         let patient = await getPatient(id.toString());
+        let birthdate = new Date(patient.birthDate);
+        let formattedBirthdate = format(birthdate, 'MMMM do, yyyy');
+        console.log(formattedBirthdate);
+        
+
+        setParamsData({
+          id: patient.id,
+          name: patient.name + ' ' + patient.lastName,
+          birthdate: formattedBirthdate,
+          doctorAssigned: patient.doctorAssigned,
+        });
+
         setPatientDataArray([
           {
             title: 'Full Name',
@@ -111,7 +130,7 @@ const PatientPage = () => {
         unsubscribe();
       }
     };
-  }, [accountData]);
+  }, [accountData, hasFetchedPatient]);
 
   const saveVitalSigns = () => {
     if (dataToSend.temp !== undefined) {
@@ -119,10 +138,7 @@ const PatientPage = () => {
       console.log(dataToSend);
       Alert.alert('Done!', 'Vital signs saved successfully!');
     } else {
-      Alert.alert(
-        'No device found',
-        'Please check the device connection.'
-      );
+      Alert.alert('No device found', 'Please check the device connection.');
     }
   };
 
@@ -131,7 +147,7 @@ const PatientPage = () => {
       className="flex-1"
       style={{ flex: 1, backgroundColor: '#fff' }}
       contentContainerStyle={tailwind`px-6 py-6`}
-      >
+    >
       {accountData && patientDataArray && realTimeData ? (
         <>
           <Text style={tailwind`mb-2 text-xl font-bold`}>Vital Signs:</Text>
@@ -184,7 +200,7 @@ const PatientPage = () => {
             onPress={() =>
               router.push({
                 pathname: '/History',
-                params: { id: id.toString() },
+                params: paramsData,
               })
             }
             style={tailwind`bg-gray-100 py-2 px-6 mt-2 rounded text-center`}

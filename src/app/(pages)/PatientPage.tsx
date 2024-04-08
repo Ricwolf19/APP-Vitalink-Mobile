@@ -2,8 +2,6 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
   Alert,
-  FlatList,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -38,8 +36,6 @@ const PatientPage = () => {
         let patient = await getPatient(id.toString());
         let birthdate = new Date(patient.birthDate);
         let formattedBirthdate = format(birthdate, 'MMMM do, yyyy');
-        console.log(formattedBirthdate);
-        
 
         setParamsData({
           id: patient.id,
@@ -105,6 +101,7 @@ const PatientPage = () => {
               data: data ? data.spo2 + '%' : 'Loading...',
             },
           ]);
+          console.log('dev' + data);
 
           setDataToSend({
             temp: data.temp,
@@ -130,9 +127,11 @@ const PatientPage = () => {
         unsubscribe();
       }
     };
-  }, [accountData, hasFetchedPatient]);
+  }, [accountData]);
 
   const saveVitalSigns = () => {
+    console.log(dataToSend);
+
     if (dataToSend.temp !== undefined) {
       storeVitalSigns(id.toString(), dataToSend);
       console.log(dataToSend);

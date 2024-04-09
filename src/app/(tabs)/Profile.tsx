@@ -44,7 +44,7 @@ const Profile = () => {
         data: accountData.rol,
       },
     ]);
-  }, [accountData]);
+  }, [accountData, language]);
 
   const onRefresh = async () => {
     setRefreshing(true);

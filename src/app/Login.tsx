@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../Firebase';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,12 @@ import {
   Alert,
 } from 'react-native';
 import { router } from 'expo-router';
+import { I18nContext } from '@/context/langContext';
 
 export default function Login() {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
+
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,15 +31,18 @@ export default function Login() {
     } catch (error) {
       switch (error.code) {
         case 'auth/missing-password':
-          Alert.alert('Something is missing', 'Please enter your password');
+          Alert.alert(
+            t.login.alerts['password-title'],
+            t.login.alerts.password
+          );
           break;
         case 'auth/invalid-email':
-          Alert.alert('Invalid email', 'Please enter a valid email');
+          Alert.alert(t.login.alerts['email-title'], t.login.alerts.email);
           break;
         case 'auth/invalid-credential':
           Alert.alert(
-            'Invalid credentials',
-            'Please enter a valid email and password'
+            t.login.alerts['credential-title'],
+            t.login.alerts.credential
           );
           break;
       }
@@ -55,16 +62,16 @@ export default function Login() {
         />
 
         <Text className="text-3xl font-bold text-center text-gray-800">
-          Welcome Back
+          {t.login.title}
         </Text>
         <Text className="text-lg font-regular mb-8 text-center text-gray-600">
-          Sign in to continue
+          {t.login.message}
         </Text>
 
         <View className="mb-6">
           <TextInput
             value={email}
-            placeholder="Enter your email"
+            placeholder={t.login.email}
             autoCapitalize="none"
             className="w-full py-2 px-3 border-b border-gray-300 focus:outline-none focus:border-red-300"
             onChangeText={(text) => setEmail(text)}
@@ -75,7 +82,7 @@ export default function Login() {
           <TextInput
             secureTextEntry={true}
             value={pass}
-            placeholder="Enter your password"
+            placeholder={t.login.password}
             autoCapitalize="none"
             className="w-full py-2 px-3 border-b border-gray-300 focus:outline-none focus:border-red-300"
             onChangeText={(text) => setPass(text)}
@@ -89,7 +96,7 @@ export default function Login() {
             onPress={signIn}
             className=" bg-red-400 py-2 px-4 rounded text-white text-center"
           >
-            <Text className="text-center text-white">Login</Text>
+            <Text className="text-center text-white">{t.login.login}</Text>
           </TouchableOpacity>
         )}
       </KeyboardAvoidingView>

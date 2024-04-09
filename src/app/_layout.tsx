@@ -1,42 +1,45 @@
 import { Stack } from 'expo-router';
 import { AuthProvider } from '@/context/authContext';
+import { I18nProvider } from '@/context/langContext';
 
 const Layout = () => {
   return (
-    <AuthProvider>
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="(history)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="(pages)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Login"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack>
-    </AuthProvider>
+    <I18nProvider>
+      <AuthProvider>
+        <Stack>
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(history)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(pages)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack>
+      </AuthProvider>
+    </I18nProvider>
   );
 };
 

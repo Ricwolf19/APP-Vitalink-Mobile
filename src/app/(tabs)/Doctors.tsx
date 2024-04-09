@@ -1,13 +1,11 @@
 import {
   View,
   Text,
-  ActivityIndicator,
-  TouchableOpacity,
   ScrollView,
   RefreshControl,
 } from 'react-native';
 import { useAccountData } from '../../context/authContext';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Spinner from '@/components/spinner';
 import {
   Card,
@@ -17,11 +15,13 @@ import {
   CardTitle,
 } from '@/components/card';
 import tailwind from 'twrnc';
-import { faBedPulse, faHospital } from '@fortawesome/free-solid-svg-icons';
+import { faHospital } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { router } from 'expo-router';
+import { I18nContext } from '@/context/langContext';
 
 const Doctors = () => {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const { accountData, reload } = useAccountData();
 
@@ -48,9 +48,9 @@ const Doctors = () => {
                   {'  '}
                   {doctor.name} {doctor.lastName}
                 </CardTitle>
-                <CardSubtitle>ID number: {doctor.numCedula}</CardSubtitle>
-                <CardText>Area: {doctor.area}</CardText>
-                <CardSubtitle>Patients: </CardSubtitle>
+                <CardSubtitle>{t.card.id}: {doctor.numCedula}</CardSubtitle>
+                <CardText>{t.card.area}: {doctor.area}</CardText>
+                <CardSubtitle>{t.card.patients}: </CardSubtitle>
                 <CardText>
                   {doctor.patients.map(
                     (patient: any, i: number, patientsArray: number) => (
@@ -60,7 +60,7 @@ const Doctors = () => {
                     )
                   )}
                 </CardText>
-                <CardSubtitle>Status: {doctor.status} </CardSubtitle>
+                <CardSubtitle>{t.card.status}: {doctor.status} </CardSubtitle>
               </CardContent>
             </Card>
           ))}

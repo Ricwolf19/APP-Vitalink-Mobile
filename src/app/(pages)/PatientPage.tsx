@@ -1,19 +1,16 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
-import {
-  Alert,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useAccountData } from '../../context/authContext';
 import Spinner from '@/components/spinner';
 import { Card, CardSubtitle, CardTitle } from '@/components/card';
 import tailwind from 'twrnc';
 import { format } from 'date-fns';
+import { I18nContext } from '@/context/langContext';
 
 const PatientPage = () => {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
   const { getPatient, accountData, listenToRealtimeData, storeVitalSigns } =
     useAccountData();
   const params = useLocalSearchParams();
@@ -46,38 +43,39 @@ const PatientPage = () => {
 
         setPatientDataArray([
           {
-            title: 'Full Name',
+            title: t.patients.name,
             data: patient.name + ' ' + patient.lastName,
           },
           {
-            title: 'Birthdate',
-            data: patient.birthDate + ' (' + patient.age + ' years)',
+            title: t.patients.birth,
+            data:
+              patient.birthDate + ' (' + patient.age + ' ' + t.card.age + ')',
           },
           {
-            title: 'Status',
+            title: t.card.status,
             data: patient.status,
           },
           {
-            title: 'Doctor assigned',
+            title: t.card.doctor,
             data: patient.doctorAssigned,
           },
           {
-            title: 'Area assigned',
+            title: t.patients.area,
             data: patient.area,
           },
           {
-            title: 'Blood type',
+            title: t.card.blood,
             data: patient.bloodType,
           },
           {
-            title: 'Allergies',
+            title: t.patients.allegies,
             data:
               patient.allergies.length > 0
                 ? patient.allergies.join(', ')
                 : 'None',
           },
           {
-            title: 'Chronic diseases',
+            title: t.patients.diseases,
             data:
               patient.chronicDiseases.length > 0
                 ? patient.chronicDiseases.join(', ')
@@ -135,9 +133,9 @@ const PatientPage = () => {
     if (dataToSend.temp !== undefined) {
       storeVitalSigns(id.toString(), dataToSend);
       console.log(dataToSend);
-      Alert.alert('Done!', 'Vital signs saved successfully!');
+      Alert.alert(t.patients.done, t.patients.success);
     } else {
-      Alert.alert('No device found', 'Please check the device connection.');
+      Alert.alert(t.patients.notfound, t.patients.error);
     }
   };
 
@@ -149,7 +147,9 @@ const PatientPage = () => {
     >
       {accountData && patientDataArray && realTimeData ? (
         <>
-          <Text style={tailwind`mb-2 text-xl font-bold`}>Vital Signs:</Text>
+          <Text style={tailwind`mb-2 text-xl font-bold`}>
+            {t.patients.signs}:
+          </Text>
           <View style={tailwind`flex-row gap-x-2`}>
             {dataToSend.temp !== undefined ? (
               realTimeData.map((item, index) => (
@@ -163,11 +163,11 @@ const PatientPage = () => {
                 </Card>
               ))
             ) : (
-              <Text style={tailwind`text-base`}>No device connected</Text>
+              <Text style={tailwind`text-base`}>{t.patients.device}</Text>
             )}
           </View>
           <Text style={tailwind`mt-3 mb-2 text-xl font-bold`}>
-            Patient information:
+            {t.patients.info}:
           </Text>
           {patientDataArray.map((item, index) => (
             <View key={index}>
@@ -192,7 +192,7 @@ const PatientPage = () => {
             style={tailwind`bg-red-300 py-2 px-6 mt-4 rounded text-center`}
           >
             <Text className="text-center text-white text-lg">
-              Save vital signs record
+              {t.patients.save}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -205,7 +205,7 @@ const PatientPage = () => {
             style={tailwind`bg-gray-100 py-2 px-6 mt-2 rounded text-center`}
           >
             <Text className="text-center text-black text-lg">
-              Vital signs history
+              {t.patients.history}
             </Text>
           </TouchableOpacity>
         </>

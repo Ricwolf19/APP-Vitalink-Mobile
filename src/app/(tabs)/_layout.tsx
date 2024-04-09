@@ -1,5 +1,5 @@
 import { View, Image, Text } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Tabs } from 'expo-router';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
@@ -8,21 +8,25 @@ import {
   faHospitalUser,
   faUserDoctor,
 } from '@fortawesome/free-solid-svg-icons';
+import { I18nContext } from '@/context/langContext';
 
 const TabsLayout = () => {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
+
   return (
     <Tabs>
       <Tabs.Screen
         name="Patients"
-        options={tabBarOptions('Patients List', faHospitalUser)}
+        options={tabBarOptions(t.layout.tabs.patients, faHospitalUser)}
       />
       <Tabs.Screen
         name="Doctors"
-        options={tabBarOptions('Doctors List', faUserDoctor)}
+        options={tabBarOptions(t.layout.tabs.doctors, faUserDoctor)}
       />
       <Tabs.Screen
         name="Profile"
-        options={tabBarOptions('Profile', faGear)}
+        options={tabBarOptions(t.layout.tabs.profile, faGear)}
       />
     </Tabs>
   );

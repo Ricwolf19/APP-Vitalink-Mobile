@@ -1,6 +1,6 @@
 import "../global.css";
 import { View, Image, Text } from "react-native";
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StatusBar } from "expo-status-bar";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Animated, {
@@ -8,9 +8,12 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { router } from "expo-router";
+import { I18nContext } from  '@/context/langContext';
 
 
 export default function WelcomeScreen() {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
   const ring1padding = useSharedValue(0)
   const ring2padding = useSharedValue(0)
 
@@ -43,7 +46,7 @@ export default function WelcomeScreen() {
           Vita Link
         </Text>
         <Text className="font-medium text-blue-800 tracking-widest" style={{ fontSize: hp(2) }}>
-          Smart Monitoring, Real Results
+          {t.index.message}
         </Text>
       </View>
     </View>

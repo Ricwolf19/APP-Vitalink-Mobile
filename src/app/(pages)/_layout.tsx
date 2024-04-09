@@ -2,11 +2,18 @@ import { Stack } from 'expo-router';
 import { faBedPulse } from '@fortawesome/free-solid-svg-icons';
 import { View, Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { I18nContext } from '@/context/langContext';
+import { useContext } from 'react';
 
 const PageLayout = () => {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
   return (
     <Stack>
-      <Stack.Screen name="PatientPage" options={barOptions('Patient Details')} />
+      <Stack.Screen
+        name="PatientPage"
+        options={barOptions(t.layout.patient)}
+      />
     </Stack>
   );
 };

@@ -1,13 +1,8 @@
 import Spinner from '@/components/spinner';
 import { useAccountData } from '@/context/authContext';
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
-import {
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import tailwind from 'twrnc';
 import * as Print from 'expo-print';
@@ -15,6 +10,7 @@ import * as MediaLibrary from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
 import { format } from 'date-fns';
+import { I18nContext } from '@/context/langContext';
 
 interface VitalSign {
   id: string;
@@ -25,6 +21,8 @@ interface VitalSign {
 }
 
 const History = () => {
+  const { language, i18n } = useContext(I18nContext);
+  const t = i18n[language];
   const { getVitalSigns } = useAccountData();
   const [fetched, setFetched] = useState(false);
   const [pdf, setPdf] = useState('');
@@ -106,31 +104,49 @@ const History = () => {
         setVitalSignsData(sortedData);
         const now = format(new Date(), "MMMM do, yyyy 'at' HH:mm:ss");
         setNow(now);
-        const groupedData = sortedData.reduce<Record<string, string[]>>((acc, data) => {
-          const dateTimeParts = data.dateTime.split(' ');
-          const dateParts = dateTimeParts[0].split('-');
-          const timeParts = dateTimeParts[1].split(':');
-        
-          const date = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0], +timeParts[0], +timeParts[1], +timeParts[2]);
-        
-          const dateKey = format(date, 'MMMM do, yyyy');
-        
-          if (!acc[dateKey]) {
-            acc[dateKey] = [];
-          }
-          acc[dateKey].push(`<li><strong>${format(date, 'HH:mm')}: </strong>${data.temp}°C, ${data.spo2}%, ${data.fc}bpm</li>`);
-        
-          return acc;
-        }, {});
-        
-        const vitalSignsString = Object.entries(groupedData).map(([date, measurements]) => `
+        const groupedData = sortedData.reduce<Record<string, string[]>>(
+          (acc, data) => {
+            const dateTimeParts = data.dateTime.split(' ');
+            const dateParts = dateTimeParts[0].split('-');
+            const timeParts = dateTimeParts[1].split(':');
+
+            const date = new Date(
+              +dateParts[2],
+              +dateParts[1] - 1,
+              +dateParts[0],
+              +timeParts[0],
+              +timeParts[1],
+              +timeParts[2]
+            );
+
+            const dateKey = format(date, 'MMMM do, yyyy');
+
+            if (!acc[dateKey]) {
+              acc[dateKey] = [];
+            }
+            acc[dateKey].push(
+              `<li><strong>${format(date, 'HH:mm')}: </strong>${data.temp}°C, ${
+                data.spo2
+              }%, ${data.fc}bpm</li>`
+            );
+
+            return acc;
+          },
+          {}
+        );
+
+        const vitalSignsString = Object.entries(groupedData)
+          .map(
+            ([date, measurements]) => `
           <section>
             <strong>${date}</strong>
             <ul>
               ${measurements.join('')}
             </ul>
           </section>
-        `).join('');
+        `
+          )
+          .join('');
 
         setPdf(`
         <!DOCTYPE html>
@@ -208,9 +224,9 @@ const History = () => {
       {vitalSignsData ? (
         <>
           <Text style={tailwind`text-2xl mt-3 mb-1 ml-4 font-bold`}>
-            Records:
+            {t.history.record}:
           </Text>
-          {vitalSignsData[0].temp !== undefined ? (
+          {vitalSignsData[0] !== undefined? (
             <>
               <FlatList
                 data={vitalSignsData}
@@ -243,15 +259,15 @@ const History = () => {
                 onPress={() => {
                   saveHistoryToPDF(pdf);
                 }}
-                className=" bg-red-400 py-2 px-4 text-white text-center"
+                className=" bg-black py-2 px-4 text-white text-center"
               >
                 <Text className="text-center text-white text-xl">
-                  Share history as PDF
+                  {t.history.share}
                 </Text>
               </TouchableOpacity>
             </>
           ) : (
-            <Text style={tailwind`text-base px-6`}>No records</Text>
+            <Text style={tailwind`text-base px-6`}>{t.history.norecords}</Text>
           )}
         </>
       ) : (
